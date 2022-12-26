@@ -22,11 +22,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
 
-      - name: Lint Code
-        run: yarn lint
-
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Lint Code
+        run: yarn lint
 
       - name: Unit Test
         run: yarn test
