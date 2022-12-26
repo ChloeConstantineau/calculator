@@ -1,7 +1,6 @@
 import {
   registerDecorator,
   ValidationOptions,
-  ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
@@ -10,7 +9,7 @@ import {
 export class UsesValidOperatorsConstraint
   implements ValidatorConstraintInterface
 {
-  validate(input: string, _: ValidationArguments) {
+  validate(input: string) {
     // prettier-ignore
     const regex = new RegExp('^[0-9()*\/+-]*$');
     return regex.test(input);
@@ -18,7 +17,7 @@ export class UsesValidOperatorsConstraint
 }
 
 export function UsesValidOperators(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
