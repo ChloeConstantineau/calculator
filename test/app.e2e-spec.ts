@@ -1,13 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { APP_PIPE } from '@nestjs/core';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: APP_PIPE,
+          useValue: new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+          }),
+        },
+      ],
       imports: [AppModule],
     }).compile();
 
@@ -15,10 +26,10 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/calculus?query=... (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/calculus?query=OTgyKygyMy8oMyogMykpLTIzKigyKjMgKSA=')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Query is: 982+(23/(3*3))-23*(2*3)');
   });
 });
