@@ -9,7 +9,7 @@
 
 ## CI/CD
 
-[] Make Docker image with security best practices
+[x] Make Docker image with security best practices
 [] Configure image repository
 [] Add Docker image build step in CI
 [] Configure the CD trigger strategy (main branch, release versions, etc.)
