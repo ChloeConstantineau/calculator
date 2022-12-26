@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Query } from '@nestjs/common';
+import { CalculusQueryDto } from './app.dto';
+import { CalculusService } from './app.service';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Controller('calculus')
+export class CalculusController {
+  constructor(private readonly calculusService: CalculusService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getCalculus(@Query() input: CalculusQueryDto): string {
+    return this.calculusService.getQuery(input.query);
   }
 }
