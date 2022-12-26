@@ -40,6 +40,18 @@ $ yarn test:e2e
 $ yarn test:cov
 ```
 
+## Docker
+
+```bash
+# Build
+$ docker build . -t calculator
+
+# Run
+$ docker -p 3000:3000 run calculator
+```
+
+Try `http://localhost:3000/calculus?query=MiAqICgyMy8oMyozKSktIDIzICogKDIqMyk=`
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).

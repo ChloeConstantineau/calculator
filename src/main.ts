@@ -11,6 +11,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // Graceful termination hooks
+  app.enableShutdownHooks();
+
   await app.listen(3000);
 }
 bootstrap();
