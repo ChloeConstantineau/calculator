@@ -7,4 +7,4 @@ Dockerfile
 .npmrc
 *.md
 .prettierrc
-./infra
+infra/
