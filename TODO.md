@@ -15,3 +15,4 @@
 [] Configure the CD trigger strategy (main branch, release versions, etc.)
 [] Code pulumi with AWS App runner
 [] Add Health /up endpoint
+[] Create IAM User/Role for github actions user and token
