@@ -1,8 +1,8 @@
+# Calculus
+
 <p align="center">
   <img src="./assets/icons8-calculator.svg" width="200" alt="Nest Logo" />
 </p>
-
-
 
 ## Description
 
@@ -11,7 +11,7 @@
 ## Installation
 
 ```bash
-$ yarn
+yarn
 ```
 
 ## Running the app
@@ -67,5 +67,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](LICENSE).
 
 <a target="_blank" href="https://icons8.com/icon/oTyxAxj0tuPz/calculator">Calculator</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-
-
