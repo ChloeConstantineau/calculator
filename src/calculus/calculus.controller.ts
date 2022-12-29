@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { CalculusQueryDto } from './app.dto';
-import { CalculusService } from './app.service';
+import { CalculusQueryDto } from './calculus.dto';
+import { CalculusService } from './calculus.service';
 
 @Controller('calculus')
 export class CalculusController {

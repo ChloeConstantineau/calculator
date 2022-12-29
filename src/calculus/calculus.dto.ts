@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsString } from 'class-validator';
-import { decodeBase64TrimAll } from './app.helper';
-import { UsesValidOperators } from './app.validator';
+import { decodeBase64TrimAll } from './calculus.helper';
+import { UsesValidOperators } from './calculus.validator';
 
 export class CalculusQueryDto {
   @Transform(({ value }) => decodeBase64TrimAll(value))

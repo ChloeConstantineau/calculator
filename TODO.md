@@ -12,8 +12,10 @@
 [x] Make Docker image with security best practices
 [x] Configure image repository
 [x] Add Docker image build step in CI
-[] Configure the CD trigger strategy (main branch, release versions, etc.)
-[] Code pulumi with AWS App runner
-[] Add Health /up endpoint
-[] Create IAM User/Role for github actions user and token
+[x] Code pulumi with AWS App runner
+[x] Create IAM User/Role for github actions user and token
+
+[x] Add Health /up endpoint
 [] Fix image vulnerability (with bulleye ? )
+[] Clean et extract env var in infra to be more modular
+[] Configure the CD trigger strategy (main branch, release versions, etc.)

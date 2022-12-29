@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CalculusController } from './app.controller';
-import { CalculusService } from './app.service';
+import { CalculusController } from './calculus.controller';
+import { CalculusService } from './calculus.service';
 
 describe('AppController', () => {
   let calculusController: CalculusController;

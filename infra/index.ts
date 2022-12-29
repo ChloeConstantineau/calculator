@@ -162,6 +162,10 @@ const appRunner = new aws.apprunner.Service(
   'calculator-apprunner',
   {
     serviceName: 'calculator-apprunner',
+    healthCheckConfiguration: {
+      path: '/health',
+      protocol: 'HTTP',
+    },
     sourceConfiguration: {
       authenticationConfiguration: {
         accessRoleArn: appRunnerAssumedRole.arn,
