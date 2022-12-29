@@ -11,3 +11,7 @@ export function decodeBase64TrimAll(input: string): string {
   const result = trimAll(decoded);
   return result;
 }
+
+export function encodeBase64(input: string): string {
+  return Buffer.from(input).toString('base64');
+}
