@@ -66,4 +66,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
-<a target="_blank" href="https://icons8.com/icon/oTyxAxj0tuPz/calculator">Calculator</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+Calculator icon by [Icons8](https://icons8.com/icon/oTyxAxj0tuPz/calculator)
