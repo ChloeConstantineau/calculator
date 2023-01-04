@@ -2,7 +2,7 @@
 
 ## Application
 
-[] Get stronger input validation
+[] Get stronger input validation (Max INT)
 [] Implement compute service
 [] Implement better error message strategy
 [] Think logging strategy (if necessary)
