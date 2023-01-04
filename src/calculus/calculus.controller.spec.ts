@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CalculusController } from './calculus.controller';
+import { CalculusResponse } from './calculus.dto';
 import { CalculusService } from './calculus.service';
 
 describe('AppController', () => {
@@ -15,10 +16,13 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Query is: ..."', () => {
-      expect(
-        calculusController.getCalculus({ query: '982+(23/(3*3))-23*(2*3)' }),
-      ).toBe('Query is: 982+(23/(3*3))-23*(2*3)');
+    it('should return a valid result with no errors', () => {
+      const query = '982+(23/(3*3))-23*(2*3)';
+      const result: CalculusResponse = {
+        error: false,
+        result: 982 + 23 / (3 * 3) - 23 * (2 * 3),
+      };
+      expect(calculusController.getCalculus({ query: query })).toEqual(result);
     });
   });
 });
