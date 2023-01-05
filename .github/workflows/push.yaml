@@ -1,6 +1,7 @@
 name: Push
 
 on:
+  workflow_call:
   push:
     branches: ["*"]
 
@@ -32,6 +33,3 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Image build
-        run: docker build .
