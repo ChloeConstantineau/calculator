@@ -25,6 +25,7 @@ async function bootstrap() {
   // Graceful termination hooks
   app.enableShutdownHooks();
 
-  await app.listen(3000);
+  const server = await app.listen(3000);
+  server.setTimeout(5000); // default timeout
 }
 bootstrap();
