@@ -2,9 +2,10 @@
 
 ## Application
 
+[x] Implement compute service
+[x] Tests
+[x] Implement better error message strategy
 [] Get stronger input validation (Max INT)
-[] Implement compute service
-[] Implement better error message strategy
 [] Think logging strategy (if necessary)
 
 ## CI/CD

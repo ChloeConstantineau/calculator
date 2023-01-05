@@ -1,30 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CalculusResponse } from './calculus.dto';
+import {
+  InvalidCharacterError,
+  InvalidOperationError,
+  UnbalancedParenthesesError,
+} from './calculus.error';
 
 @Injectable()
 export class CalculusService {
-  private ERRORS: { [key: string]: string } = {
-    INVALID_CHARACTERS_ERROR:
-      'Invalid Operators found; Valid operators are [0-9], *, /, +, -, (, )',
-    PARENTHESES_UNBALANCED:
-      'Unbalanced Parentheses; Input contains invalid parentheses patterns.',
-    INVALID_OPERATION:
-      'Invalid Operation; Operators such as +, -, * or / should be preceded and followed by a number or a parentheses group.',
-  };
+  private DIGITS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  private OPENING_PARENTHESE = '(';
+  private CLOSING_PARENTHESE = ')';
+  private PLUS = '+';
+  private MINUS = '-';
+  private TIMES = '*';
+  private DIVIDE = '/';
 
-  private OPERATORS = ['+', '-', '*', '/'];
-  private PARENTHESES = ['(', ')'];
+  private OPERATORS = [this.PLUS, this, this.MINUS, this.TIMES, this.DIVIDE];
+  private PARENTHESES = [this.OPENING_PARENTHESE, this.CLOSING_PARENTHESE];
   private OP = [...this.OPERATORS, ...this.PARENTHESES];
 
   run(input: string): CalculusResponse {
-    if (!this.isOnlyValidCharacters(input))
-      return { error: true, message: this.ERRORS['INVALID_CHARACTERS_ERROR'] };
+    if (!this.isOnlyValidCharacters(input)) throw new InvalidCharacterError();
 
     if (!this.isBalancedParentheses(input))
-      return { error: true, message: this.ERRORS['PARENTHESES_UNBALANCED'] };
+      throw new UnbalancedParenthesesError();
 
-    if (!this.isValidOperators(input))
-      return { error: true, message: this.ERRORS['INVALID_OPERATION'] };
+    if (!this.isValidOperators(input)) throw new InvalidOperationError();
 
     return this.compute(input);
   }
@@ -38,11 +40,13 @@ export class CalculusService {
   private isBalancedParentheses(input: string): boolean {
     let stack = 0;
     let balanced = true;
-    const parentheses = [...input].filter((c) => c === '(' || c === ')');
+    const parentheses = [...input].filter(
+      (c) => c === this.OPENING_PARENTHESE || c === this.CLOSING_PARENTHESE,
+    );
 
     for (let i = 0; i < parentheses.length; i++) {
-      if (parentheses[i] == '(') stack++;
-      else if (parentheses[i] == ')' && stack <= 0) {
+      if (parentheses[i] == this.OPENING_PARENTHESE) stack++;
+      else if (parentheses[i] == this.CLOSING_PARENTHESE && stack <= 0) {
         balanced = false;
         break;
       } else stack--;
@@ -67,7 +71,9 @@ export class CalculusService {
           let next = ops[i + 1];
           if (
             this.OPERATORS.includes(previous) ||
-            this.OPERATORS.includes(next)
+            this.OPERATORS.includes(next) ||
+            previous === this.OPENING_PARENTHESE ||
+            next === this.CLOSING_PARENTHESE
           ) {
             valid = false;
             break;
@@ -85,29 +91,29 @@ export class CalculusService {
       if (calc.length == 0) return 0;
 
       let stack = [];
-      let sign = '+';
+      let sign = this.PLUS;
       let num = 0;
       let current = '';
 
       while (calc.length > 0) {
         current = calc.pop();
 
-        if (isDigit(current)) num = num * 10 + +current;
-        else if (current === '(') num = inner(calc);
+        if (this.DIGITS.includes(current)) num = num * 10 + +current;
+        else if (current === this.OPENING_PARENTHESE) num = inner(calc);
 
         if (calc.length === 0 || this.OP.includes(current)) {
-          if (sign === '+') stack.push(num);
-          else if (sign === '-') stack.push(-num);
-          else if (sign === '*') {
+          if (sign === this.PLUS) stack.push(num);
+          else if (sign === this.MINUS) stack.push(-num);
+          else if (sign === this.TIMES) {
             let temp = stack.pop() * num;
             stack.push(temp);
-          } else if (sign == '/') {
+          } else if (sign == this.DIVIDE) {
             let temp = stack.pop() / num;
             stack.push(temp);
           }
           sign = current;
           num = 0;
-          if (sign == ')') break;
+          if (sign == this.CLOSING_PARENTHESE) break;
         }
       }
 
@@ -118,19 +124,4 @@ export class CalculusService {
 
     return { error: false, result: result };
   }
-}
-
-function isDigit(input: string): boolean {
-  return (
-    input === '0' ||
-    input === '1' ||
-    input === '2' ||
-    input === '3' ||
-    input === '4' ||
-    input === '5' ||
-    input === '6' ||
-    input === '7' ||
-    input === '8' ||
-    input === '9'
-  );
 }
