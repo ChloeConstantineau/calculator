@@ -1,2 +1,3 @@
 config:
   aws:region: us-east-1
+  calculator-infra:githubRepoMain: repo:ChloeConstantineau/calculator:ref:refs/heads/main

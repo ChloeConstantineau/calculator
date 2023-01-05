@@ -1,5 +1,13 @@
 import * as pulumi from '@pulumi/pulumi';
 import * as aws from '@pulumi/aws';
+import * as random from '@pulumi/random';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const config = new pulumi.Config();
+const githubRepoMain = config.get('githubRepoMain');
+
+const port = process.env.PORT || 3000;
 
 const imageRepository = new aws.ecr.Repository('calculator', {
   imageScanningConfiguration: {
@@ -32,8 +40,7 @@ const ghActionAssumedRoleWithOidc = new aws.iam.Role(
             Action: 'sts:AssumeRoleWithWebIdentity',
             Condition: {
               StringLike: {
-                'token.actions.githubusercontent.com:sub':
-                  'repo:ChloeConstantineau/calculator:ref:refs/heads/main',
+                'token.actions.githubusercontent.com:sub': githubRepoMain,
               },
               StringEquals: {
                 'token.actions.githubusercontent.com:aud': 'sts.amazonaws.com',
@@ -107,75 +114,20 @@ const appRunnerPolicyAttachment = new aws.iam.RolePolicyAttachment(
   { dependsOn: appRunnerAssumedRole },
 );
 
-// const repositoryPolicy = new aws.ecr.RepositoryPolicy('myrepositorypolicy', {
-//   repository: repository.id,
-//   policy: JSON.stringify({
-//     Version: '2012-10-17',
-//     Statement: [
-//       {
-//         Sid: 'new policy',
-//         Effect: 'Allow',
-//         Principal: '*',
-//         Action: [
-//           'ecr:GetDownloadUrlForLayer',
-//           'ecr:BatchGetImage',
-//           'ecr:BatchCheckLayerAvailability',
-//           'ecr:PutImage',
-//           'ecr:InitiateLayerUpload',
-//           'ecr:UploadLayerPart',
-//           'ecr:CompleteLayerUpload',
-//           'ecr:DescribeRepositories',
-//           'ecr:GetRepositoryPolicy',
-//           'ecr:ListImages',
-//           'ecr:DeleteRepository',
-//           'ecr:BatchDeleteImage',
-//           'ecr:SetRepositoryPolicy',
-//           'ecr:DeleteRepositoryPolicy',
-//         ],
-//       },
-//     ],
-//   }),
-// });
-
-// const lifecyclePolicy = new aws.ecr.LifecyclePolicy('mylifecyclepolicy', {
-//   repository: repository.id,
-//   policy: JSON.stringify({
-//     rules: [
-//       {
-//         rulePriority: 1,
-//         description: 'Expire images older than 14 days',
-//         selection: {
-//           tagStatus: 'untagged',
-//           countType: 'sinceImagePushed',
-//           countUnit: 'days',
-//           countNumber: 14,
-//         },
-//         action: {
-//           type: 'expire',
-//         },
-//       },
-//     ],
-//   }),
-// });
-
+const appRunnerName = new random.RandomPet('calculator-apprunner');
 const appRunner = new aws.apprunner.Service(
   'calculator-apprunner',
   {
-    serviceName: 'calculator-apprunner',
-    healthCheckConfiguration: {
-      path: '/health',
-      protocol: 'HTTP',
-    },
+    serviceName: pulumi.interpolate`calculator-apprunner-${appRunnerName.id}`,
     sourceConfiguration: {
       authenticationConfiguration: {
         accessRoleArn: appRunnerAssumedRole.arn,
       },
       imageRepository: {
         imageConfiguration: {
-          port: '3000',
+          port: port.toString(),
         },
-        imageIdentifier:
-          '987391221740.dkr.ecr.us-east-1.amazonaws.com/calculator-cdf46fa:latest',
+        imageIdentifier: pulumi.interpolate`${imageRepository.repositoryUrl}:latest`,
         imageRepositoryType: 'ECR',
       },
     },
@@ -183,5 +135,5 @@ const appRunner = new aws.apprunner.Service(
       Name: 'calculator-apprunner-service',
     },
   },
-  { dependsOn: [imageRepository, appRunnerPolicyAttachment] },
+  { dependsOn: [imageRepository, appRunnerPolicyAttachment, appRunnerName] },
 );
