@@ -9,7 +9,7 @@ env:
 
 jobs:
   build:
-    uses: ./.github/workflows/push.yml
+    uses: ./.github/workflows/push.yaml
 
   push-image:
     runs-on: ubuntu-latest
