@@ -25,7 +25,10 @@ async function bootstrap() {
   // Graceful termination hooks
   app.enableShutdownHooks();
 
-  const server = await app.listen(3000);
-  server.setTimeout(5000); // default timeout
+  const port = parseInt(process.env.PORT, 10) || 3000;
+  const timeout = parseInt(process.env.TIMEOUT, 10) || 5000;
+
+  const server = await app.listen(port);
+  server.setTimeout(timeout);
 }
 bootstrap();
