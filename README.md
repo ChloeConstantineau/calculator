@@ -39,6 +39,10 @@ yarn
 
 ## Running the app
 
+Copy the sample environment variables with `cp .sample-env .env`.
+
+Start the application:
+
 ```bash
 # development
 $ yarn start
@@ -83,8 +87,9 @@ curl -v http://localhost:3000/calculus?query=MiAqICgyMy8oMyozKSktIDIzICogKDIqMyk
 
 ## CI / CD
 
-CI: Uses github action `push.yaml`
-CD: Uses manually triggered github action `deployment.yaml`
+CI: Uses github action `push.yaml` for every commit pushed on any branch
+
+CD: Uses manually triggered github action `deployment.yaml` on branch `main` only
 
 ## Deployment
 
