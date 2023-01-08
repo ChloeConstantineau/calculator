@@ -16,7 +16,7 @@ export class CalculusService {
   private TIMES = '*';
   private DIVIDE = '/';
 
-  private OPERATORS = [this.PLUS, this, this.MINUS, this.TIMES, this.DIVIDE];
+  private OPERATORS = [this.PLUS, this.MINUS, this.TIMES, this.DIVIDE];
   private PARENTHESES = [this.OPENING_PARENTHESE, this.CLOSING_PARENTHESE];
   private OP = [...this.OPERATORS, ...this.PARENTHESES];
 
